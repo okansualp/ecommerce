@@ -2,13 +2,13 @@ import { ShoppingCartIcon, HeartIcon } from '@heroicons/react/outline'
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
 
-const ProductCard = ({ product, onAddToCart, isFavorite, onToggleFavorite }) => {
+const ProductCard = ({ product, addToCart, isFavorite, onToggleFavorite }) => {
   const { id, name, description, price, oldPrice, discount, image, specs } = product
 
   const handleAddToCart = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    onAddToCart({ ...product, quantity: 1, selectedColor: specs.color[0] })
+    addToCart({ ...product, quantity: 1, selectedColor: specs.color[0] })
   }
 
   return (

@@ -23,6 +23,10 @@ const ProductDetail = ({ addToCart }) => {
   }
 
   const handleAddToCart = () => {
+    console.log('Add to cart clicked');
+    console.log('Product:', product);
+    console.log('Selected Color:', selectedColor);
+    console.log('Quantity:', quantity);
     addToCart({ ...product, quantity, selectedColor })
   }
 
@@ -62,7 +66,7 @@ const ProductDetail = ({ addToCart }) => {
                 <button
                   key={color}
                   onClick={() => setSelectedColor(color)}
-                  className={`p-2 rounded-md \${
+                  className={`p-2 rounded-md ${
                     selectedColor === color
                       ? 'ring-2 ring-indigo-500'
                       : 'ring-1 ring-gray-200'

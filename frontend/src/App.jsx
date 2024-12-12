@@ -18,14 +18,17 @@ function App() {
   const [favorites, setFavorites] = useLocalStorage('favorites', [])
 
   const addToCart = (product) => {
+    console.log('Adding to cart in App.jsx:', product);
     const { id, selectedColor, quantity = 1 } = product
     
     setCartItems(prevItems => {
+      console.log('Previous cart items:', prevItems);
       const existingItem = prevItems.find(item => 
         item.id === id && item.selectedColor === selectedColor
       )
       
       if (existingItem) {
+        console.log('Updating existing item');
         return prevItems.map(item =>
           item.id === id && item.selectedColor === selectedColor
             ? { ...item, quantity: item.quantity + quantity }
@@ -33,6 +36,7 @@ function App() {
         )
       }
       
+      console.log('Adding new item');
       return [...prevItems, { ...product, quantity }]
     })
     
