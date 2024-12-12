@@ -1,39 +1,70 @@
-import { ShoppingCartIcon } from '@heroicons/react/outline';
+import { ShoppingCartIcon, HeartIcon } from '@heroicons/react/outline'
+import { HeartIcon as HeartSolidIcon } from '@heroicons/react/solid'
+import { Link } from 'react-router-dom'
 
-export default function ProductCard({ product }) {
+const ProductCard = ({ product, onAddToCart, isFavorite, onToggleFavorite }) => {
+  const { id, name, description, price, oldPrice, discount, image, specs } = product
+
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onAddToCart({ ...product, quantity: 1, selectedColor: specs.color[0] })
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="relative">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-48 object-cover"
-        />
-        {product.discount && (
-          <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm font-semibold">
-            {product.discount}% İndirim
-          </div>
-        )}
-      </div>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden group">
+      <Link to={`/product/${id}`} className="block relative">
+        <div className="relative">
+          <img src={image} alt={name} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+          {discount && (
+            <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm">
+              %{discount} İndirim
+            </div>
+          )}
+        </div>
+      </Link>
       <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-        <p className="text-sm text-gray-500 mt-1">{product.description}</p>
-        <div className="mt-3 flex items-center justify-between">
+        <Link to={`/product/${id}`}>
+          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+            {name}
+          </h3>
+          <p className="mt-1 text-gray-500 text-sm">{description}</p>
+        </Link>
+        <div className="mt-4 flex items-center justify-between">
           <div>
-            {product.oldPrice && (
-              <span className="text-sm text-gray-400 line-through mr-2">
-                {product.oldPrice}₺
+            <span className="text-lg font-bold text-gray-900">{price} TL</span>
+            {oldPrice && (
+              <span className="ml-2 text-sm text-gray-500 line-through">
+                {oldPrice} TL
               </span>
             )}
-            <span className="text-lg font-bold text-indigo-600">
-              {product.price}₺
-            </span>
           </div>
-          <button className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition-colors">
-            <ShoppingCartIcon className="h-5 w-5" />
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                onToggleFavorite()
+              }}
+              className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+            >
+              {isFavorite ? (
+                <HeartSolidIcon className="h-6 w-6 text-red-500" />
+              ) : (
+                <HeartIcon className="h-6 w-6" />
+              )}
+            </button>
+            <button
+              onClick={handleAddToCart}
+              className="flex items-center space-x-1 bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+            >
+              <ShoppingCartIcon className="h-5 w-5" />
+              <span>Sepete Ekle</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
+
+export default ProductCard
