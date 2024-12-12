@@ -8,6 +8,7 @@ export const products = [
     discount: 15,
     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
     category: 'Elektronik',
+    featured: true,
     specs: {
       brand: 'SoundMax',
       color: ['Siyah', 'Beyaz', 'Mavi'],
@@ -27,6 +28,7 @@ export const products = [
     price: 2499,
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
     category: 'Elektronik',
+    featured: true,
     specs: {
       brand: 'TechWatch',
       color: ['Siyah', 'Gümüş'],
@@ -48,6 +50,7 @@ export const products = [
     discount: 20,
     image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=500',
     category: 'Elektronik',
+    featured: true,
     specs: {
       brand: 'TechPro',
       color: ['Uzay Grisi', 'Gümüş', 'Altın'],
@@ -58,6 +61,70 @@ export const products = [
         'Parmak İzi Okuyucu'
       ],
       stock: 15
+    }
+  },
+  {
+    id: 4,
+    name: 'Akıllı Telefon',
+    description: '6.7 inç OLED ekran, 256GB depolama',
+    price: 14999,
+    oldPrice: 16999,
+    discount: 12,
+    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
+    category: 'Elektronik',
+    featured: true,
+    specs: {
+      brand: 'TechMobile',
+      color: ['Siyah', 'Beyaz', 'Mavi'],
+      features: [
+        '6.7 inç OLED Ekran',
+        '256GB Depolama',
+        '12GB RAM',
+        '108MP Kamera'
+      ],
+      stock: 20
+    }
+  },
+  {
+    id: 5,
+    name: 'Kablosuz Hoparlör',
+    description: '360° ses deneyimi, 24 saat pil ömrü',
+    price: 899,
+    oldPrice: 1199,
+    discount: 25,
+    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
+    category: 'Elektronik',
+    featured: true,
+    specs: {
+      brand: 'SoundMax',
+      color: ['Siyah', 'Mavi', 'Kırmızı'],
+      features: [
+        '360° Ses',
+        'Bluetooth 5.0',
+        '24 Saat Pil Ömrü',
+        'IPX7 Su Geçirmezlik'
+      ],
+      stock: 35
+    }
+  },
+  {
+    id: 6,
+    name: 'Oyun Konsolu',
+    description: '4K gaming, 1TB SSD, kablosuz kontrolcü',
+    price: 7999,
+    image: 'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=500',
+    category: 'Elektronik',
+    featured: true,
+    specs: {
+      brand: 'GameTech',
+      color: ['Siyah'],
+      features: [
+        '4K Gaming',
+        '1TB SSD',
+        'Ray Tracing',
+        'Kablosuz Kontrolcü'
+      ],
+      stock: 10
     }
   }
 ]
