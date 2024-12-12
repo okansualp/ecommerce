@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins2
+    container_name: jenkins
+    user: root # Docker komutlarını çalıştırmak için root kullanıcısı gerekli
+    ports:
+      - "8080:8080" # Jenkins UI için
+      - "50000:50000" # Jenkins agent bağlantıları için
+    volumes:
+      - jenkins_home:/var/jenkins_home # Jenkins verilerini saklamak için
+      - /var/run/docker.sock:/var/run/docker.sock # Host Docker socket'ini paylaşır
+      - /usr/bin/docker:/usr/bin/docker # Host Docker binary'sini paylaşır
+    environment:
+      - JENKINS_OPTS=--httpPort=8080
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    restart: unless-stopped
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend # Frontend için bağlam dizini
+      dockerfile: Dockerfile # Dockerfile, frontend klasöründe olmalı
+    ports:
+      - "1905:80" # React uygulaması için port yönlendirmesi
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
