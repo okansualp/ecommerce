@@ -1,93 +1,76 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
 import Navbar from './components/Navbar'
-import ProductCard from './components/ProductCard'
 import Cart from './components/Cart'
-import CartPage from './pages/CartPage'
-import ProductDetail from './pages/ProductDetail'
 import HomePage from './pages/HomePage'
-import { ChevronRightIcon, FireIcon, SparklesIcon, ShoppingCartIcon } from '@heroicons/react/outline'
+import ProductDetail from './pages/ProductDetail'
+import CartPage from './pages/CartPage'
+import UserPage from './pages/UserPage'
 import { useLocalStorage } from './hooks/useLocalStorage'
-import { products, categories } from './data/products'
+import { products } from './data/products'
+import { useTheme } from './context/ThemeContext'
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [cartItems, setCartItems] = useLocalStorage('cartItems', [])
   const [favorites, setFavorites] = useLocalStorage('favorites', [])
+  const { isDark } = useTheme()
 
   const addToCart = (product) => {
-    console.log('Adding to cart in App.jsx:', product);
-    const { id, selectedColor, quantity = 1 } = product
-    
     setCartItems(prevItems => {
-      console.log('Previous cart items:', prevItems);
-      const existingItem = prevItems.find(item => 
-        item.id === id && item.selectedColor === selectedColor
-      )
-      
+      const existingItem = prevItems.find(item => item.id === product.id)
       if (existingItem) {
-        console.log('Updating existing item');
         return prevItems.map(item =>
-          item.id === id && item.selectedColor === selectedColor
-            ? { ...item, quantity: item.quantity + quantity }
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       }
-      
-      console.log('Adding new item');
-      return [...prevItems, { ...product, quantity }]
+      return [...prevItems, { ...product, quantity: 1 }]
     })
-    
-    toast.success('Ürün sepete eklendi!')
   }
 
-  const removeFromCart = (productId, selectedColor) => {
-    setCartItems(prevItems => 
-      prevItems.filter(item => 
-        !(item.id === productId && item.selectedColor === selectedColor)
-      )
-    )
+  const removeFromCart = (productId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId))
   }
 
-  const updateQuantity = (productId, selectedColor, newQuantity) => {
-    if (newQuantity === 0) {
-      removeFromCart(productId, selectedColor)
-      toast.info('Ürün sepetten kaldırıldı')
+  const updateQuantity = (productId, quantity) => {
+    if (quantity === 0) {
+      removeFromCart(productId)
       return
     }
-
-    const product = products.find(p => p.id === productId)
-    if (product && newQuantity > product.specs.stock) {
-      toast.warning(`Maksimum ${product.specs.stock} adet sipariş verebilirsiniz`)
-      return
-    }
-
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === productId && item.selectedColor === selectedColor
-          ? { ...item, quantity: newQuantity }
-          : item
+        item.id === productId ? { ...item, quantity } : item
       )
     )
-    toast.success('Sepet güncellendi')
   }
 
-  const toggleFavorite = (productId) => {
+  const toggleFavorite = (product) => {
     setFavorites(prevFavorites => {
-      if (prevFavorites.includes(productId)) {
-        return prevFavorites.filter(id => id !== productId)
+      const isFavorite = prevFavorites.some(fav => fav.id === product.id)
+      if (isFavorite) {
+        return prevFavorites.filter(fav => fav.id !== product.id)
       }
-      return [...prevFavorites, productId]
+      return [...prevFavorites, product]
     })
   }
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
-        <ToastContainer position="bottom-right" />
-        <Navbar cartItems={cartItems} cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} setIsCartOpen={setIsCartOpen} />
+      <div className={`min-h-screen transition-colors duration-200 ${isDark ? 'dark bg-gray-900' : 'bg-white'}`}>
+        <ToastContainer 
+          position="bottom-right"
+          theme={isDark ? 'dark' : 'light'}
+        />
+        <Navbar 
+          cartItems={cartItems} 
+          cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
+          setIsCartOpen={setIsCartOpen} 
+        />
         <Cart
           isOpen={isCartOpen}
           setIsOpen={setIsCartOpen}
@@ -125,6 +108,10 @@ function App() {
                 updateQuantity={updateQuantity}
               />
             } 
+          />
+          <Route 
+            path="/user" 
+            element={<UserPage />} 
           />
         </Routes>
       </div>
