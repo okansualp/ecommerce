@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaSave,
@@ -8,22 +8,33 @@ import {
   FaPalette,
   FaShoppingCart,
 } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+
+const defaultSettings = {
+  siteName: 'Nostalji',
+  siteDescription: 'Vintage ve Antika Ürünler',
+  currency: 'TRY',
+  language: 'tr',
+  timezone: 'Europe/Istanbul',
+  emailNotifications: true,
+  orderNotifications: true,
+  stockNotifications: true,
+  theme: 'light',
+  primaryColor: '#D97706', // amber-600
+  freeShippingThreshold: 500,
+  maxCartItems: 10,
+};
 
 function Settings() {
-  const [settings, setSettings] = useState({
-    siteName: 'Nostalji',
-    siteDescription: 'Vintage ve Antika Ürünler',
-    currency: 'TRY',
-    language: 'tr',
-    timezone: 'Europe/Istanbul',
-    emailNotifications: true,
-    orderNotifications: true,
-    stockNotifications: true,
-    theme: 'light',
-    primaryColor: '#D97706', // amber-600
-    freeShippingThreshold: 500,
-    maxCartItems: 10,
+  const [settings, setSettings] = useState(() => {
+    const savedSettings = localStorage.getItem('siteSettings');
+    return savedSettings ? JSON.parse(savedSettings) : defaultSettings;
   });
+
+  useEffect(() => {
+    // Ayarlar değiştiğinde localStorage'ı güncelle
+    localStorage.setItem('siteSettings', JSON.stringify(settings));
+  }, [settings]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,7 +47,16 @@ function Settings() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: API call to save settings
+    localStorage.setItem('siteSettings', JSON.stringify(settings));
     console.log('Settings saved:', settings);
+    toast.success('Ayarlar başarıyla kaydedildi!');
+  };
+
+  const handleReset = () => {
+    // Ayarları varsayılan değerlere sıfırla
+    setSettings(defaultSettings);
+    localStorage.setItem('siteSettings', JSON.stringify(defaultSettings));
+    toast.info('Ayarlar varsayılan değerlere sıfırlandı.');
   };
 
   return (
@@ -46,11 +66,10 @@ function Settings() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={handleSubmit}
-          className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 flex items-center space-x-2"
+          onClick={handleReset}
+          className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 flex items-center space-x-2"
         >
-          <FaSave />
-          <span>Kaydet</span>
+          <span>Sıfırla</span>
         </motion.button>
       </div>
 
@@ -240,6 +259,19 @@ function Settings() {
               />
             </div>
           </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-end space-x-4">
+          <motion.button
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 flex items-center space-x-2"
+          >
+            <FaSave />
+            <span>Kaydet</span>
+          </motion.button>
         </div>
       </form>
     </div>
