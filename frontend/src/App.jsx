@@ -83,6 +83,7 @@ function App() {
             path="/" 
             element={
               <HomePage 
+                products={products}
                 addToCart={addToCart}
                 toggleFavorite={toggleFavorite}
                 favorites={favorites}

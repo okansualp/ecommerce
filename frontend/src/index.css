@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
-  --background: white;
-  --text: #111827;
+  --background: #ffffff;
+  --text: #1f2937;
+  --primary: #b45309;
+  --secondary: #fbbf24;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -18,18 +22,31 @@
 
 html.dark {
   --background: #111827;
-  --text: white;
+  --text: #f3f4f6;
+  --primary: #d97706;
+  --secondary: #f59e0b;
 }
 
 body {
   background-color: var(--background);
   color: var(--text);
+  font-family: 'Inter', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.retro-pattern {
+  background-image: url('/patterns/retro-pattern.png');
+  background-repeat: repeat;
+  opacity: 0.1;
 }
 
 html, body, #root  {
@@ -70,16 +87,29 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.dark body {
-  background-color: var(--background);
-  color: var(--text);
-}
-
 /* Smooth transitions for theme changes */
 * {
-  transition-property: color, background-color, border-color;
+  transition-property: color, background-color, border-color, transform, opacity;
   transition-duration: 200ms;
   transition-timing-function: ease-in-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
 }
 
 @media (prefers-color-scheme: light) {

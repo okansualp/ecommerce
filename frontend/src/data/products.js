@@ -1,157 +1,158 @@
 export const products = [
   {
     id: 1,
-    name: 'Kablosuz Kulaklık',
-    description: 'Yüksek ses kalitesi, aktif gürültü önleme',
-    price: 1299,
-    oldPrice: 1499,
-    discount: 15,
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
-    category: 'Elektronik',
+    name: "Vintage Gramofon",
+    description: "1960'lardan kalma, tamamen çalışır durumda klasik gramofon. Orijinal parçaları ve muhteşem ses kalitesiyle koleksiyonunuza değer katacak bir parça.",
+    price: 2499.99,
+    category: "Antika",
+    image: "https://images.unsplash.com/photo-1542728928-1413d1894ed1?w=500",
     featured: true,
+    stock: 1,
     specs: {
-      brand: 'SoundMax',
-      color: ['Siyah', 'Beyaz', 'Mavi'],
-      features: [
-        'Aktif Gürültü Önleme',
-        'Bluetooth 5.0',
-        '30 Saat Pil Ömrü',
-        'Su Geçirmez'
-      ],
-      stock: 45
+      year: "1960",
+      condition: "İyi",
+      brand: "Victrola",
+      dimensions: "45x35x20 cm"
     }
   },
   {
     id: 2,
-    name: 'Akıllı Saat',
-    description: 'Fitness takibi, bildirimler ve şık tasarım',
-    price: 2499,
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
-    category: 'Elektronik',
+    name: "Retro Deri Ceket",
+    description: "70'ler tarzı, hakiki deri, kahverengi vintage ceket. Minimal yıpranma izleriyle otantik görünüm.",
+    price: 899.99,
+    category: "Giyim",
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500",
     featured: true,
+    stock: 3,
     specs: {
-      brand: 'TechWatch',
-      color: ['Siyah', 'Gümüş'],
-      features: [
-        'Kalp Ritmi Ölçümü',
-        'Uyku Takibi',
-        'Su Geçirmez',
-        'GPS'
-      ],
-      stock: 30
+      size: "M/L",
+      material: "Hakiki Deri",
+      condition: "Çok İyi",
+      year: "1970s"
     }
   },
   {
     id: 3,
-    name: 'Tablet',
-    description: '10.5 inç ekran, 128GB depolama',
-    price: 4999,
-    oldPrice: 5999,
-    discount: 20,
-    image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=500',
-    category: 'Elektronik',
+    name: "Antika Cep Saati",
+    description: "1920'lerden kalma, altın kaplama cep saati. Orijinal zinciri ve çalışır durumda mekanizmasıyla nadide bir parça.",
+    price: 3499.99,
+    category: "Aksesuar",
+    image: "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?w=500",
     featured: true,
+    stock: 1,
     specs: {
-      brand: 'TechPro',
-      color: ['Uzay Grisi', 'Gümüş', 'Altın'],
-      features: [
-        '10.5 inç Retina Ekran',
-        '128GB Depolama',
-        '8GB RAM',
-        'Parmak İzi Okuyucu'
-      ],
-      stock: 15
+      year: "1920",
+      material: "Altın Kaplama",
+      diameter: "45mm",
+      condition: "Mükemmel"
     }
   },
   {
     id: 4,
-    name: 'Akıllı Telefon',
-    description: '6.7 inç OLED ekran, 256GB depolama',
-    price: 14999,
-    oldPrice: 16999,
-    discount: 12,
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
-    category: 'Elektronik',
+    name: "Vintage Polaroid Kamera",
+    description: "1980'lerden orijinal Polaroid kamera. Test edilmiş, çalışır durumda. Nostaljik fotoğraf deneyimi için ideal.",
+    price: 699.99,
+    category: "Elektronik",
+    image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500",
     featured: true,
+    stock: 2,
     specs: {
-      brand: 'TechMobile',
-      color: ['Siyah', 'Beyaz', 'Mavi'],
-      features: [
-        '6.7 inç OLED Ekran',
-        '256GB Depolama',
-        '12GB RAM',
-        '108MP Kamera'
-      ],
-      stock: 20
+      model: "SX-70",
+      year: "1980",
+      condition: "Çalışır",
+      type: "Instant Camera"
     }
   },
   {
     id: 5,
-    name: 'Kablosuz Hoparlör',
-    description: '360° ses deneyimi, 24 saat pil ömrü',
-    price: 899,
-    oldPrice: 1199,
-    discount: 25,
-    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
-    category: 'Elektronik',
+    name: "Retro Radyo",
+    description: "1950'lerden ahşap kasalı vintage radyo. Hem dekoratif hem de çalışır durumda.",
+    price: 1299.99,
+    category: "Elektronik",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500",
     featured: true,
+    stock: 1,
     specs: {
-      brand: 'SoundMax',
-      color: ['Siyah', 'Mavi', 'Kırmızı'],
-      features: [
-        '360° Ses',
-        'Bluetooth 5.0',
-        '24 Saat Pil Ömrü',
-        'IPX7 Su Geçirmezlik'
-      ],
-      stock: 35
+      brand: "Philips",
+      year: "1950s",
+      material: "Ahşap",
+      condition: "Restore Edilmiş"
     }
   },
   {
     id: 6,
-    name: 'Oyun Konsolu',
-    description: '4K gaming, 1TB SSD, kablosuz kontrolcü',
-    price: 7999,
-    image: 'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=500',
-    category: 'Elektronik',
+    name: "Vintage Daktilo",
+    description: "1940'lardan mekanik daktilo. Tamamen çalışır durumda, orijinal çantasıyla birlikte.",
+    price: 1899.99,
+    category: "Ofis",
+    image: "https://images.unsplash.com/photo-1504707748692-419802cf939d?w=500",
     featured: true,
+    stock: 1,
     specs: {
-      brand: 'GameTech',
-      color: ['Siyah'],
-      features: [
-        '4K Gaming',
-        '1TB SSD',
-        'Ray Tracing',
-        'Kablosuz Kontrolcü'
-      ],
-      stock: 10
+      brand: "Remington",
+      year: "1940",
+      condition: "İyi",
+      keyboard: "Q Türkçe"
+    }
+  },
+  {
+    id: 7,
+    name: "Retro Elbise",
+    description: "1950'ler tarzı puantiyeli swing elbise. Rockabilly tarzı için ideal.",
+    price: 599.99,
+    category: "Giyim",
+    image: "https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=500",
+    featured: false,
+    stock: 4,
+    specs: {
+      size: "S/M/L",
+      material: "Pamuk",
+      style: "Swing",
+      pattern: "Puantiyeli"
+    }
+  },
+  {
+    id: 8,
+    name: "Antika Duvar Saati",
+    description: "Viktorya döneminden kalma pirinç detaylı duvar saati. Restorasyonu yapılmış, çalışır durumda.",
+    price: 4999.99,
+    category: "Ev Dekor",
+    image: "https://images.unsplash.com/photo-1415604934674-561df9abf539?w=500",
+    featured: false,
+    stock: 1,
+    specs: {
+      year: "1880",
+      material: "Ahşap/Pirinç",
+      height: "95cm",
+      condition: "Restore Edilmiş"
     }
   }
-]
+];
 
 export const categories = [
-  { 
-    id: 1, 
-    name: 'Elektronik',
-    image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500',
-    subCategories: ['Telefonlar', 'Tabletler', 'Kulaklıklar', 'Akıllı Saatler']
+  {
+    name: "Antika",
+    path: "/category/antique",
+    description: "Nadide antika parçalar"
   },
-  { 
-    id: 2, 
-    name: 'Moda',
-    image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=500',
-    subCategories: ['Kadın', 'Erkek', 'Çocuk', 'Ayakkabı']
+  {
+    name: "Vintage Giyim",
+    path: "/category/clothing",
+    description: "Retro kıyafetler"
   },
-  { 
-    id: 3, 
-    name: 'Ev & Yaşam',
-    image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=500',
-    subCategories: ['Mobilya', 'Dekorasyon', 'Aydınlatma', 'Mutfak']
+  {
+    name: "Aksesuarlar",
+    path: "/category/accessories",
+    description: "Vintage aksesuarlar"
   },
-  { 
-    id: 4, 
-    name: 'Spor',
-    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500',
-    subCategories: ['Spor Giyim', 'Spor Aletleri', 'Outdoor', 'Fitness']
+  {
+    name: "Ev Dekor",
+    path: "/category/home-decor",
+    description: "Nostaljik ev dekorasyon ürünleri"
+  },
+  {
+    name: "Elektronik",
+    path: "/category/electronics",
+    description: "Klasik elektronik cihazlar"
   }
-]
+];
