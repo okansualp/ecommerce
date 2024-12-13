@@ -1,178 +1,297 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { CogIcon, ShoppingBagIcon, HeartIcon } from '@heroicons/react/outline'
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { FaUser, FaHeart, FaHistory, FaSignOutAlt } from 'react-icons/fa';
 
-const UserPage = () => {
-  const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState('orders')
-
-  const userInfo = {
+function UserPage({ favorites = [], cartItems = [] }) {
+  const [activeTab, setActiveTab] = useState('profile');
+  const [user, setUser] = useState({
     name: 'John Doe',
     email: 'john@example.com',
-    phone: '+90 555 123 4567',
-    address: 'İstanbul, Türkiye'
-  }
+    address: '123 Main St, City',
+    phone: '+90 555 123 4567'
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState(user);
+
+  const handleSave = () => {
+    setUser(editedUser);
+    setIsEditing(false);
+    // TODO: API call to update user info
+  };
 
   const orderHistory = [
     {
       id: 1,
-      date: '2024-01-10',
+      date: '2023-12-10',
+      total: 1250,
       status: 'Teslim Edildi',
-      total: 1299.99,
       items: [
-        { name: 'Ürün 1', quantity: 2, price: 649.99 }
+        { name: 'Vintage Saat', quantity: 1, price: 750 },
+        { name: 'Retro Gözlük', quantity: 1, price: 500 }
+      ]
+    },
+    {
+      id: 2,
+      date: '2023-12-05',
+      total: 2100,
+      status: 'Kargoda',
+      items: [
+        { name: 'Antika Vazo', quantity: 1, price: 2100 }
       ]
     }
-  ]
+  ];
 
-  const tabs = [
-    { id: 'orders', name: 'Siparişlerim', icon: ShoppingBagIcon },
-    { id: 'favorites', name: 'Favorilerim', icon: HeartIcon },
-    { id: 'settings', name: 'Hesap Ayarları', icon: CogIcon },
-  ]
+  const renderProfile = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+      {isEditing ? (
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">İsim</label>
+            <input
+              type="text"
+              value={editedUser.name}
+              onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">E-posta</label>
+            <input
+              type="email"
+              value={editedUser.email}
+              onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Adres</label>
+            <textarea
+              value={editedUser.address}
+              onChange={(e) => setEditedUser({ ...editedUser, address: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Telefon</label>
+            <input
+              type="tel"
+              value={editedUser.phone}
+              onChange={(e) => setEditedUser({ ...editedUser, phone: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+          <div className="flex space-x-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleSave}
+              className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
+            >
+              Kaydet
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                setEditedUser(user);
+                setIsEditing(false);
+              }}
+              className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+            >
+              İptal
+            </motion.button>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold dark:text-white">{user.name}</h2>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsEditing(true)}
+              className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
+            >
+              Düzenle
+            </motion.button>
+          </div>
+          <div className="space-y-2">
+            <p className="text-gray-600 dark:text-gray-300">
+              <span className="font-medium">E-posta:</span> {user.email}
+            </p>
+            <p className="text-gray-600 dark:text-gray-300">
+              <span className="font-medium">Adres:</span> {user.address}
+            </p>
+            <p className="text-gray-600 dark:text-gray-300">
+              <span className="font-medium">Telefon:</span> {user.phone}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderFavorites = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {favorites.map((product) => (
+        <motion.div
+          key={product.id}
+          whileHover={{ scale: 1.02 }}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-48 object-cover"
+          />
+          <div className="p-4">
+            <h3 className="text-lg font-medium dark:text-white">{product.name}</h3>
+            <p className="text-amber-600 font-medium mt-2">
+              {product.price.toLocaleString('tr-TR', {
+                style: 'currency',
+                currency: 'TRY'
+              })}
+            </p>
+          </div>
+        </motion.div>
+      ))}
+      {favorites.length === 0 && (
+        <div className="col-span-full text-center py-8 text-gray-500 dark:text-gray-400">
+          Henüz favori ürününüz bulunmuyor.
+        </div>
+      )}
+    </div>
+  );
+
+  const renderOrders = () => (
+    <div className="space-y-6">
+      {orderHistory.map((order) => (
+        <motion.div
+          key={order.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+        >
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Sipariş No: #{order.id}
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Tarih: {new Date(order.date).toLocaleDateString('tr-TR')}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-lg font-medium text-amber-600">
+                {order.total.toLocaleString('tr-TR', {
+                  style: 'currency',
+                  currency: 'TRY'
+                })}
+              </p>
+              <p className="text-sm font-medium text-green-500">{order.status}</p>
+            </div>
+          </div>
+          <div className="border-t dark:border-gray-700 pt-4">
+            {order.items.map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center py-2"
+              >
+                <div className="flex items-center">
+                  <span className="text-gray-600 dark:text-gray-300">
+                    {item.name}
+                  </span>
+                  <span className="text-gray-400 dark:text-gray-500 ml-2">
+                    x{item.quantity}
+                  </span>
+                </div>
+                <span className="text-gray-600 dark:text-gray-300">
+                  {item.price.toLocaleString('tr-TR', {
+                    style: 'currency',
+                    currency: 'TRY'
+                  })}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      ))}
+      {orderHistory.length === 0 && (
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+          Henüz siparişiniz bulunmuyor.
+        </div>
+      )}
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Profil Kartı */}
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-8">
-          <div className="flex items-center space-x-4">
-            <div className="h-16 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-2xl font-semibold">
-              {userInfo.name.charAt(0)}
-            </div>
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">{userInfo.name}</h1>
-              <p className="text-gray-500">{userInfo.email}</p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Sidebar */}
+        <div className="md:w-64 flex-shrink-0">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <div className="flex flex-col space-y-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveTab('profile')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md ${
+                  activeTab === 'profile'
+                    ? 'bg-amber-600 text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <FaUser />
+                <span>Profil</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveTab('favorites')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md ${
+                  activeTab === 'favorites'
+                    ? 'bg-amber-600 text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <FaHeart />
+                <span>Favoriler</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveTab('orders')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md ${
+                  activeTab === 'orders'
+                    ? 'bg-amber-600 text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <FaHistory />
+                <span>Siparişlerim</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center space-x-2 px-4 py-2 rounded-md text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+              >
+                <FaSignOutAlt />
+                <span>Çıkış Yap</span>
+              </motion.button>
             </div>
           </div>
         </div>
 
-        {/* Sekmeler */}
-        <div className="bg-gray-50 rounded-2xl shadow-sm mb-8">
-          <nav className="flex border-b border-gray-100">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 py-4 px-4 flex items-center justify-center space-x-2 bg-white ${
-                  activeTab === tab.id
-                    ? 'text-indigo-600 border-b-2 border-indigo-500 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <tab.icon className="h-5 w-5" />
-                <span>{tab.name}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        {/* Sekme İçerikleri */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          {/* Siparişler */}
-          {activeTab === 'orders' && (
-            <div className="space-y-6">
-              {orderHistory.map(order => (
-                <div key={order.id} className="border border-gray-100 rounded-lg p-6 hover:border-indigo-100 transition-colors">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm text-gray-500">Sipariş No: #{order.id}</p>
-                      <p className="text-sm text-gray-500">Tarih: {order.date}</p>
-                    </div>
-                    <span className="px-3 py-1 text-sm rounded-full bg-green-50 text-green-700 font-medium">
-                      {order.status}
-                    </span>
-                  </div>
-                  <div className="mt-4 space-y-2">
-                    {order.items.map((item, index) => (
-                      <div key={index} className="flex justify-between py-2 border-b border-gray-50 last:border-0">
-                        <span className="text-gray-700">{item.name} x{item.quantity}</span>
-                        <span className="font-medium">{item.price} TL</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <div className="flex justify-between">
-                      <span className="font-medium text-gray-900">Toplam</span>
-                      <span className="font-medium text-indigo-600">{order.total} TL</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Favoriler */}
-          {activeTab === 'favorites' && (
-            <div className="text-center py-12">
-              <HeartIcon className="h-12 w-12 mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500">Henüz favori ürününüz bulunmuyor.</p>
-            </div>
-          )}
-
-          {/* Hesap Ayarları */}
-          {activeTab === 'settings' && (
-            <div className="max-w-2xl mx-auto">
-              <form className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Ad Soyad
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="mt-1 block w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                    defaultValue={userInfo.name}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    E-posta
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="mt-1 block w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                    defaultValue={userInfo.email}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Telefon
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    className="mt-1 block w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                    defaultValue={userInfo.phone}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-                    Adres
-                  </label>
-                  <textarea
-                    id="address"
-                    rows={3}
-                    className="mt-1 block w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                    defaultValue={userInfo.address}
-                  />
-                </div>
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-lg hover:from-indigo-600 hover:to-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Değişiklikleri Kaydet
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+        {/* Main Content */}
+        <div className="flex-1">
+          {activeTab === 'profile' && renderProfile()}
+          {activeTab === 'favorites' && renderFavorites()}
+          {activeTab === 'orders' && renderOrders()}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default UserPage
+export default UserPage;

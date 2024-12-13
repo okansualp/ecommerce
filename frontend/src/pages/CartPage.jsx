@@ -1,131 +1,147 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeftIcon, PlusIcon, MinusIcon, TrashIcon } from '@heroicons/react/outline';
+import { motion } from 'framer-motion';
+import { FaTrash } from 'react-icons/fa';
 
-const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
+function CartPage({ cartItems, removeFromCart, updateQuantity }) {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   if (cartItems.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Sepetiniz Boş</h2>
-          <p className="text-gray-500 mb-8">Alışverişe başlamak için ürünleri keşfedin.</p>
-          <Link
-            to="/"
-            className="inline-flex items-center text-indigo-600 hover:text-indigo-800"
-          >
-            <ArrowLeftIcon className="h-5 w-5 mr-2" />
-            Alışverişe Devam Et
-          </Link>
-        </div>
+      <div className="min-h-screen flex flex-col items-center justify-center px-4">
+        <h1 className="text-2xl font-playfair mb-4 text-center dark:text-white">
+          Sepetiniz boş
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-8 text-center">
+          Alışverişe başlamak için ürünlerimize göz atın.
+        </p>
+        <Link
+          to="/"
+          className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300"
+        >
+          Alışverişe Başla
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex items-center mb-8">
-        <Link
-          to="/"
-          className="inline-flex items-center text-indigo-600 hover:text-indigo-800"
-        >
-          <ArrowLeftIcon className="h-5 w-5 mr-2" />
-          Alışverişe Devam Et
-        </Link>
-      </div>
+    <div className="min-h-screen py-12 px-4 max-w-7xl mx-auto">
+      <h1 className="text-3xl md:text-4xl font-playfair mb-8 dark:text-white">
+        Sepetim
+      </h1>
 
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">Sepetim</h2>
-        
-        <div className="space-y-6">
-          {cartItems.map((item) => (
-            <div key={item.id + item.selectedColor} className="flex items-center border-b pb-6">
-              <Link to={`/product/${item.id}`} className="flex-shrink-0">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Ürün Listesi */}
+        <div className="lg:col-span-2 space-y-4">
+          {cartItems.map(item => (
+            <motion.div
+              key={item.id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex items-center space-x-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm"
+            >
+              <Link to={`/product/${item.id}`} className="shrink-0">
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="h-24 w-24 object-cover rounded-md hover:opacity-75 transition-opacity"
+                  className="w-24 h-24 object-cover rounded-md"
                 />
               </Link>
-              <div className="flex-1 ml-6">
-                <div className="flex justify-between">
-                  <div>
-                    <Link 
-                      to={`/product/${item.id}`}
-                      className="text-lg font-medium text-gray-900 hover:text-indigo-600"
-                    >
-                      {item.name}
-                    </Link>
-                    <p className="text-gray-500 mt-1">{item.description}</p>
-                    {item.selectedColor && (
-                      <p className="text-sm text-gray-500 mt-1">Renk: {item.selectedColor}</p>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <p className="text-lg font-medium text-gray-900">{item.price} TL</p>
-                    {item.oldPrice && (
-                      <p className="text-sm text-gray-500 line-through">{item.oldPrice} TL</p>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center border rounded-md">
-                    <button
-                      onClick={() => updateQuantity(item.id, item.selectedColor, Math.max(0, item.quantity - 1))}
-                      className="p-2 text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                      aria-label="Decrease quantity"
-                    >
-                      <MinusIcon className="h-5 w-5" />
-                    </button>
-                    <span className="px-4 py-2 text-gray-900 font-medium border-x">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.selectedColor, item.quantity + 1)}
-                      className="p-2 text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                      aria-label="Increase quantity"
-                    >
-                      <PlusIcon className="h-5 w-5" />
-                    </button>
-                  </div>
-                  <button
-                    onClick={() => removeFromCart(item.id, item.selectedColor)}
-                    className="text-red-500 hover:text-red-700 flex items-center"
-                  >
-                    <TrashIcon className="h-5 w-5 mr-1" />
-                    <span>Kaldır</span>
-                  </button>
+
+              <div className="flex-grow">
+                <Link 
+                  to={`/product/${item.id}`}
+                  className="text-lg font-medium hover:text-amber-600 dark:text-white dark:hover:text-amber-500 transition-colors"
+                >
+                  {item.name}
+                </Link>
+                <div className="text-amber-600 font-medium mt-1">
+                  {item.price.toLocaleString('tr-TR', {
+                    style: 'currency',
+                    currency: 'TRY'
+                  })}
                 </div>
               </div>
-            </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center border rounded-lg dark:border-gray-600">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="px-3 py-1 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    -
+                  </button>
+                  <span className="px-3 py-1 text-gray-800 dark:text-gray-200">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="px-3 py-1 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-500 hover:text-red-600 p-2"
+                >
+                  <FaTrash />
+                </button>
+              </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="mt-8 border-t pt-8">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <p className="text-lg font-medium text-gray-900">Toplam</p>
-              <p className="text-sm text-gray-500 mt-1">KDV Dahil</p>
+        {/* Sipariş Özeti */}
+        <div className="lg:col-span-1">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+            <h2 className="text-xl font-playfair mb-4 dark:text-white">
+              Sipariş Özeti
+            </h2>
+            
+            <div className="space-y-3 mb-6">
+              <div className="flex justify-between text-gray-600 dark:text-gray-300">
+                <span>Ara Toplam</span>
+                <span>
+                  {total.toLocaleString('tr-TR', {
+                    style: 'currency',
+                    currency: 'TRY'
+                  })}
+                </span>
+              </div>
+              <div className="flex justify-between text-gray-600 dark:text-gray-300">
+                <span>Kargo</span>
+                <span>Ücretsiz</span>
+              </div>
+              <div className="border-t dark:border-gray-700 pt-3">
+                <div className="flex justify-between font-semibold text-lg dark:text-white">
+                  <span>Toplam</span>
+                  <span>
+                    {total.toLocaleString('tr-TR', {
+                      style: 'currency',
+                      currency: 'TRY'
+                    })}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-gray-900">{total.toFixed(2)} TL</p>
-              {cartItems.some(item => item.oldPrice) && (
-                <p className="text-sm text-green-600 mt-1">
-                  Toplam Kazanç: {cartItems.reduce((sum, item) => 
-                    sum + (item.oldPrice ? (item.oldPrice - item.price) * item.quantity : 0), 0
-                  ).toFixed(2)} TL
-                </p>
-              )}
-            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300"
+            >
+              Ödemeye Geç
+            </motion.button>
           </div>
-          <button className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-            Ödemeye Geç ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} Ürün)
-          </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default CartPage;

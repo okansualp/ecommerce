@@ -6,9 +6,18 @@ import 'react-toastify/dist/ReactToastify.css'
 import Navbar from './components/Navbar'
 import Cart from './components/Cart'
 import HomePage from './pages/HomePage'
-import ProductDetail from './pages/ProductDetail'
+import ProductPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
+import CategoryPage from './pages/CategoryPage'
 import UserPage from './pages/UserPage'
+import CheckoutPage from './pages/CheckoutPage'
+import OrderSuccessPage from './pages/OrderSuccessPage'
+import AdminLayout from './pages/admin/AdminLayout'
+import Dashboard from './pages/admin/Dashboard'
+import ProductManagement from './pages/admin/ProductManagement'
+import UserManagement from './pages/admin/UserManagement'
+import Analytics from './pages/admin/Analytics'
+import Settings from './pages/admin/Settings'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { products } from './data/products'
 import { useTheme } from './context/ThemeContext'
@@ -25,11 +34,11 @@ function App() {
       if (existingItem) {
         return prevItems.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + product.quantity }
             : item
         )
       }
-      return [...prevItems, { ...product, quantity: 1 }]
+      return [...prevItems, product]
     })
   }
 
@@ -69,7 +78,8 @@ function App() {
         <Navbar 
           cartItems={cartItems} 
           cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
-          setIsCartOpen={setIsCartOpen} 
+          setIsCartOpen={setIsCartOpen}
+          products={products}
         />
         <Cart
           isOpen={isCartOpen}
@@ -93,7 +103,19 @@ function App() {
           <Route 
             path="/product/:id" 
             element={
-              <ProductDetail 
+              <ProductPage 
+                products={products}
+                addToCart={addToCart}
+                toggleFavorite={toggleFavorite}
+                favorites={favorites}
+              />
+            } 
+          />
+          <Route 
+            path="/category/:category" 
+            element={
+              <CategoryPage 
+                products={products}
                 addToCart={addToCart}
                 toggleFavorite={toggleFavorite}
                 favorites={favorites}
@@ -111,9 +133,38 @@ function App() {
             } 
           />
           <Route 
-            path="/user" 
-            element={<UserPage />} 
+            path="/checkout" 
+            element={
+              <CheckoutPage 
+                cartItems={cartItems}
+              />
+            } 
           />
+          <Route 
+            path="/order-success" 
+            element={<OrderSuccessPage />} 
+          />
+          <Route 
+            path="/user" 
+            element={
+              <UserPage 
+                favorites={favorites}
+                cartItems={cartItems}
+              />
+            } 
+          />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route 
+              path="products" 
+              element={<ProductManagement products={products} />} 
+            />
+            <Route path="users" element={<UserManagement />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Routes>
       </div>
     </Router>
